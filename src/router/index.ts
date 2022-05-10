@@ -3,6 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 import HomePage from '../views/HomePage.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Registro.vue'
+import Inicio from '../views/Inicio.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -23,6 +24,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: "/inicio",
+    name: "Inicio",
+    component: Inicio
   }
 ]
 
