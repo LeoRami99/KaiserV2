@@ -15,17 +15,25 @@
         </ion-card-header>
         <ion-card-content>
           <ion-item>
-              <ion-button>
-                  Enviar
-              </ion-button>
+              <ion-button @click="openModal">Open Modal</ion-button>
           </ion-item>
         </ion-card-content> 
       </ion-card>
+      <!-- Modal -->
+       
+          
+      <!-- Fin del modal -->
     </ion-content>
+    <!-- <ion-footer>
+      <ion-toolbar>
+        <ion-title>Kaiser©</ion-title>
+      </ion-toolbar>
+    </ion-footer> -->
   </ion-page>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+import Modal from './Modal.vue'
 import {mapboxV} from "../mapa/mapb";
 import {
   IonPage,
@@ -37,7 +45,10 @@ import {
   IonCardTitle,
   IonCardContent,
   IonTitle,
-  IonButton
+  IonButton,
+  // IonModal,
+  modalController,
+  IonItem
 } from "@ionic/vue";
 export default defineComponent({
   name: "InicioKaiser",
@@ -51,7 +62,19 @@ export default defineComponent({
     IonCardTitle,
     IonCardContent,
     IonTitle,
-    IonButton
+    IonButton,
+    IonItem
+    // IonModal,
+  },
+  setup() {
+    const openModal = async () => {
+      const modal = await modalController.create({
+        component: Modal, //Modal is name of the component to render inside ionic modal
+      });
+      return modal.present();
+    };
+
+    return { openModal };
   },
   mounted() {
     mapboxV("mapa");
@@ -67,4 +90,5 @@ export default defineComponent({
   bottom:0; */
 
 }
+
 </style>
