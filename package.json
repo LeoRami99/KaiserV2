@@ -14,12 +14,14 @@
     "@ionic/vue-router": "^6.0.0",
     "core-js": "^3.6.5",
     "firebase": "^9.8.1",
+    "mapbox-gl": "^2.8.2",
     "sha-256": "^1.0.3",
     "vue": "^3.2.21",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
+    "@types/mapbox-gl": "^2.7.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "@vue/cli-plugin-babel": "~5.0.0-rc.1",
