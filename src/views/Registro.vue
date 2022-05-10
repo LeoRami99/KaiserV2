@@ -24,7 +24,8 @@
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input type="password" v-model="contraseña"></ion-input>
           </ion-item>
-          <ion-button expand="block" @click="registro" id="boton-env"><ion-icon name="return-down-forward-outline"></ion-icon>registro</ion-button>
+          <ion-button expand="block" @click="registrar" id="boton-env"><ion-icon name="return-down-forward-outline"></ion-icon>Registro</ion-button>
+          <ion-button expand="block" @click="iniciar" id="boton-env"><ion-icon name="return-down-forward-outline"></ion-icon>Login</ion-button>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -38,6 +39,18 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import app from "../dbfirebase/dbfb";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  getDoc,
+  QuerySnapshot,
+} from "firebase/firestore/lite";
+import sha256 from "sha256";
+import router from "../router/index";
 import {
   IonContent,
   IonHeader,
@@ -80,10 +93,31 @@ export default defineComponent({
     return {
       imgLogo:"https://github.com/LeoRami99/Kaiser/blob/master/icon.png?raw=true",
       usuario: "",
-      email: "",
+      correo: "",
       contraseña: ""
     }; 
   },
+  methods:{
+  async registrar() {
+     const db = getFirestore(app);
+     const docRef = doc(db, "usuarios", this.usuario);
+     const docSnap = await getDoc(docRef)
+       if (this.usuario.length > 0 && this.contraseña.length > 0 && this.correo.length > 0) {
+         setDoc(doc(db, "usuarios", this.usuario), {
+           email: this.correo,
+           password: sha256(this.contraseña),
+           });
+             this.usuario = "";
+             this.contraseña = "";
+             this.correo = "";
+
+              router.push("/login");
+       }
+  },
+  async iniciar() {
+    router.push("/login");
+  }
+},
 })
 </script>
 

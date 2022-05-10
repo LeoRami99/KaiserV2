@@ -20,7 +20,8 @@
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input type="password" v-model="contraseña"></ion-input>
           </ion-item>
-          <ion-button expand="block" @click="login" id="boton-env"><ion-icon name="checkmark-circle-outline"></ion-icon>Login</ion-button>
+          <ion-button expand="block" @click="login" id="boton-env"><ion-icon name="checkmark-circle-outline"></ion-icon>Iniciar sesion</ion-button>
+          <ion-button expand="block" @click="register" id="boton-env"><ion-icon name="checkmark-circle-outline"></ion-icon>Registrar</ion-button>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -52,6 +53,18 @@ import {
   IonFooter
 } from "@ionic/vue";
 import { defineComponent } from "vue";
+import app from "../dbfirebase/dbfb";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  setDoc,
+  getDoc,
+  QuerySnapshot,
+} from "firebase/firestore/lite";
+import sha256 from "sha256";
+import router from "../router/index";
 export default defineComponent({
   name: "LoginKaiser",
   components: {
@@ -75,12 +88,30 @@ export default defineComponent({
     return {
       imgLogo:"https://github.com/LeoRami99/Kaiser/blob/master/icon.png?raw=true",
       usuario: "",
-      contraseña: ""
+      contraseña: "",
+      passIncorrect: "",
     }; 
   },
   methods: {
-    login() {
-      alert("prueba")
+    async login() {
+            const db = getFirestore(app);
+      const docRef = doc(db, "usuarios", this.usuario);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const contrasena = docSnap.data();
+        const comparar = sha256(this.contraseña);
+        if (comparar == contrasena.password) {
+          router.push("/inicio.vue");
+        } else {
+          this.passIncorrect = "Datos erroneos";
+        }
+      } else {
+        this.passIncorrect = "Datos erroneos";
+        console.log("No such document!");
+      }
+    },
+    register() {
+      router.push("/registro");
     }
   }
 });
