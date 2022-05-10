@@ -50,7 +50,8 @@ import {
   IonButton,
   IonItem,
   IonImg,
-  IonFooter
+  IonFooter,
+  IonIcon
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import app from "../dbfirebase/dbfb";
@@ -82,7 +83,8 @@ export default defineComponent({
     IonButton,
     IonItem,
     IonImg,
-    IonFooter
+    IonFooter,
+    IonIcon
   },
   data() {
     return {
@@ -94,14 +96,14 @@ export default defineComponent({
   },
   methods: {
     async login() {
-            const db = getFirestore(app);
+      const db = getFirestore(app);
       const docRef = doc(db, "usuarios", this.usuario);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         const contrasena = docSnap.data();
         const comparar = sha256(this.contraseña);
         if (comparar == contrasena.password) {
-          router.push("/inicio.vue");
+          router.push("/inicio");
         } else {
           this.passIncorrect = "Datos erroneos";
         }
@@ -111,7 +113,7 @@ export default defineComponent({
       }
     },
     register() {
-      router.push("/registro");
+      router.push("/register");
     }
   }
 });

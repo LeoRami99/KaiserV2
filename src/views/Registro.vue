@@ -24,7 +24,7 @@
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input type="password" v-model="contraseña"></ion-input>
           </ion-item>
-          <ion-button expand="block" @click="registrar" id="boton-env"><ion-icon name="return-down-forward-outline"></ion-icon>Registro</ion-button>
+          <ion-button expand="block" @click="comparador" id="boton-env"><ion-icon name="return-down-forward-outline"></ion-icon>Registro</ion-button>
           <ion-button expand="block" @click="iniciar" id="boton-env"><ion-icon name="return-down-forward-outline"></ion-icon>Login</ion-button>
         </ion-card-content>
       </ion-card>
@@ -67,7 +67,8 @@ import {
   IonItem,
   IonImg,
   IonFooter,
-  IonIcon
+  IonIcon,
+  alertController,
 } from "@ionic/vue";
 export default defineComponent({
     name: "RegisKaiser",
@@ -87,7 +88,7 @@ export default defineComponent({
     IonItem,
     IonImg,
     IonFooter,
-    IonIcon
+    IonIcon,
   },
   data() {
     return {
@@ -111,14 +112,41 @@ export default defineComponent({
              this.contraseña = "";
              this.correo = "";
 
-              router.push("/login");
+            router.push("/login");
        }
   },
-  async iniciar() {
+      async errorLogin() {
+      const alert = await alertController.create({
+        header: "Error",
+        message: "Usuario o email ya registrados",
+        buttons: ["OK"],
+        cssClass: "my-custom-class",
+      });
+      await alert.present();
+    },
+  async comparador(){
+      const db =getFirestore(app);
+      const querySnapshot = await getDocs(collection(db, "usuarios"))
+        var i = 0;
+      querySnapshot.forEach((doc) => {
+        if(doc.id==this.usuario){
+          i++;
+        }if(doc.data().email==this.correo){
+          i++;
+        }
+      })
+        if(i==0){
+          this.registrar()
+          console.log("registro exitoso")
+        }else{
+          this.errorLogin();
+        }
+    },
+    async iniciar() {
     router.push("/login");
   }
-},
-})
+  },
+});
 </script>
 
 <style>
