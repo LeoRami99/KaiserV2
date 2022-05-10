@@ -7,13 +7,7 @@
     </ion-header>
     <ion-content>
       <ion-card id="cardsito">
-        <!-- <ion-card-header>
-          <ion-card-title>Inicio</ion-card-title>
-        </ion-card-header> -->
-        <!-- <ion-card-content> -->
-          <div id="mapa">
-                        
-          </div>
+          <div id="mapa"></div>
       </ion-card>
       <ion-card>
         <ion-card-header>
@@ -26,7 +20,6 @@
               </ion-button>
           </ion-item>
         </ion-card-content> 
-          
       </ion-card>
     </ion-content>
   </ion-page>
