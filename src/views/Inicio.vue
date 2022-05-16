@@ -77,7 +77,7 @@ export default defineComponent({
     return { openModal };
   },
   mounted() {
-    mapboxV("mapa");
+    mapboxV("mapa")
   }
 });
 </script>
@@ -89,6 +89,14 @@ export default defineComponent({
   /* top:0;
   bottom:0; */
 
+}
+.marker{
+ background-image: url('https://thumbs.gfycat.com/InexperiencedGlossyAsiaticgreaterfreshwaterclam-max-1mb.gif');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
 }
 
 </style>
