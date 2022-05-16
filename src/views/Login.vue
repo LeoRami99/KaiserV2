@@ -20,8 +20,8 @@
             <ion-label position="floating">Contraseña</ion-label>
             <ion-input type="password" v-model="contraseña"></ion-input>
           </ion-item>
-          <ion-button expand="block" @click="login" id="boton-env"><ion-icon name="checkmark-circle-outline"></ion-icon>Iniciar sesion</ion-button>
-          <ion-button expand="block" @click="register" id="boton-env"><ion-icon name="checkmark-circle-outline"></ion-icon>Registrar</ion-button>
+          <ion-button expand="block" @click="login" id="boton-env">Iniciar sesion</ion-button>
+          <ion-button expand="block" @click="register" id="boton-env">Registrar</ion-button>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -101,7 +101,7 @@ export default defineComponent({
         const contrasena = docSnap.data();
         const comparar = sha256(this.contraseña);
         if (comparar == contrasena.password) {
-          router.push("/inicio.vue");
+          router.push("/inicio");
         } else {
           this.passIncorrect = "Datos erroneos";
         }

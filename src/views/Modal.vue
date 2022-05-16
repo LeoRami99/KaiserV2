@@ -41,7 +41,7 @@
         </ion-item>
         <ion-item>
           <ion-button @click="closeModal">Cancelar</ion-button>
-          <!-- <ion-button @click="">Enviar</ion-button> -->
+          <ion-button @click="enviarReporte">Enviar</ion-button>
         </ion-item>
       </ion-card-content>
     </ion-card>
@@ -63,18 +63,22 @@ import {
   modalController,
   IonSelect,
   IonSelectOption,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonLabel,
+  IonCardTitle,
+  // IonInput,
+  IonItem,
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import app from "../dbfirebase/dbfb";
 import {
   getFirestore,
   collection,
-  getDocs,
-  doc,
-  setDoc,
-  getDoc,
-  QuerySnapshot,
+  addDoc,
 } from "firebase/firestore/lite";
+import router from "@/router";
 
 export default defineComponent({
   name: "ModalReporte",
@@ -86,10 +90,18 @@ export default defineComponent({
     IonButton,
     IonSelect,
     IonSelectOption,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonLabel,
+    IonCardTitle,
+    // IonInput,
+    IonItem,
   },
   setup() {
     const closeModal = () => {
       modalController.dismiss();
+      router.push("/inicio");
     };
 
     return { closeModal };
@@ -103,6 +115,27 @@ export default defineComponent({
     };
   },
   methods: {
+    async enviarReporte(){
+      const db = getFirestore(app);
+
+       const datos={
+          tipo_accidente: this.taccidente,
+          escala_gravedad: this.egravedad,
+          //convertir a numero
+          latitud: parseFloat(this.latitud),
+          longitud: parseFloat(this.longitud),
+          activo: true,
+       }
+        const resultado = await addDoc(collection(db, "reportes"), datos);
+        if (resultado) {
+          alert("Reporte enviado");
+          this.closeModal();
+          // router.push("/inicio");
+        } else {
+          alert("Error al enviar reporte");
+        }
+       
+    },
     obtenerUBicacion() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -110,7 +143,7 @@ export default defineComponent({
           const la = position.coords.latitude;
           const lo = position.coords.longitude;
           this.latitud = la.toString();
-          this.longitud = lo.toString();
+          this.longitud = lo.toString()
         });
       } else {
         alert("No se obtuvo la ubicación");
@@ -120,6 +153,10 @@ export default defineComponent({
   mounted() {
     //Se obtiene la ubicación del usuario
     this.obtenerUBicacion();
+    //actualizar la app cuanto se obtengo la ubicación
+    setInterval(() => {
+      this.obtenerUBicacion();
+    }, 5000);
   },
 });
 </script>
