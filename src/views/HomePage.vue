@@ -1,68 +1,93 @@
 <template>
   <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Blank</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Blank</ion-title>
-        </ion-toolbar>
-      </ion-header>
-    
-      <div id="container">
-        <strong>Ready to create an app?</strong>
-        <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+   <ion-content> 
+  <ion-slides pager="true" :options="slideOpts">
+    <ion-slide>
+      <div class="slide">
+        <img
+          src="../images/iconKaiser.png"
+        />
+        <h2>Bienvenido a Kaiser</h2>
+        <p>
+          La aplicación <b>Kaiser</b> es una herramienta para la visualización
+          de accidentes en el transcurso de tu viaje.
+        </p>
       </div>
-    </ion-content>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <img
+          src="../images/pointerIcon.gif"
+        />
+        <h2>Aporta con tu reporte</h2>
+        <p>
+          En <b>Kaiser</b> también puedes aportar con tu reporte de accidente.
+        </p>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <img
+          src="../images/Q7Ta.gif"
+        />
+        <h2>Empecemos</h2>
+        <p>
+          Bienvenido a <b>Kaiser</b> y empecemos a reportar accidentes.
+        </p>
+
+        <ion-button expand="block" @click="goToLogin">
+          Iniciar sesión
+        </ion-button>
+
+      </div>
+    </ion-slide>
+  </ion-slides>
+   </ion-content>
   </ion-page>
+
 </template>
 
+
 <script lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-import { defineComponent } from 'vue';
+import router from "../router/index";
+import { IonSlides, IonSlide, IonButton } from "@ionic/vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'HomePage',
-  components: {
-    IonContent,
-    IonHeader,
-    IonPage,
-    IonTitle,
-    IonToolbar
-  }
+  name: "HomePage",
+  components: { IonSlides, IonSlide, IonButton },
+  setup() {
+    // Optional parameters to pass to the swiper instance. See https://swiperjs.com/swiper-api for valid options.
+    const slideOpts = {
+      initialSlide: 0,
+      speed: 400,
+    };
+    return { slideOpts };
+  },
+  methods: {
+    goToLogin() {
+      //clear de screen previous whit router.push
+
+      router.push("/login");
+
+    },
+  },
 });
 </script>
+<style>
+.slide {
 
-<style scoped>
-#container {
-  text-align: center;
-  
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  height: 90vh;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.slide h2 {
+  margin-top: 2.8rem;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-  
-  color: #8c8c8c;
-  
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+.slide img {
+  max-height: 50%;
+  max-width: 80%;
+  margin: 60px 0 40px;
+  pointer-events: none;
 }
 </style>
