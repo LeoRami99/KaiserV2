@@ -70,6 +70,7 @@ import {
   IonCardTitle,
   // IonInput,
   IonItem,
+  toastController,
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import app from "../dbfirebase/dbfb";
@@ -130,11 +131,11 @@ export default defineComponent({
        }
         const resultado = await addDoc(collection(db, "reportes"), datos);
         if (resultado) {
-          alert("Reporte enviado");
+          this.openToast("Sen envio registro con éxito");
           this.closeModal();
           // router.push("/inicio");
         } else {
-          alert("Error al enviar reporte");
+          this.openToast("Fallo al enviar el reporte");
         }
        
     },
@@ -145,11 +146,19 @@ export default defineComponent({
           const la = position.coords.latitude;
           const lo = position.coords.longitude;
           this.latitud = la.toString();
-          this.longitud = lo.toString()
+          this.longitud = lo.toString();
+          this.openToast("Tú ubicación es:"+ this.latitud + ", " + this.longitud);
         });
       } else {
-        alert("No se obtuvo la ubicación");
+        this.openToast("No se obtuvo la ubicación");
       }
+    },
+    async openToast(msg:string) {
+      const toast = await toastController.create({
+        message: msg,
+        duration: 2000,
+      });
+      toast.present();
     },
   },
   mounted() {
