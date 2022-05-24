@@ -1,6 +1,6 @@
 <template>
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar id="modal_toolbar">
       <ion-title>Reporte | Kaiser</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -39,10 +39,10 @@
             >
           </ion-select>
         </ion-item>
-        <ion-item>
-          <ion-button @click="closeModal">Cancelar</ion-button>
-          <ion-button @click="enviarReporte">Enviar</ion-button>
-        </ion-item>
+      
+          <ion-button id="boton-env" expand="block" @click="closeModal">Cancelar</ion-button>
+          <ion-button id="boton-env" expand="block" @click="enviarReporte">Enviar</ion-button>
+    
       </ion-card-content>
     </ion-card>
     <p>Usted ha seleccionado: {{ taccidente }}</p>
@@ -73,6 +73,7 @@ import {
 } from "@ionic/vue";
 import { defineComponent } from "vue";
 import app from "../dbfirebase/dbfb";
+import { mapboxV } from "../mapa/mapb";
 import {
   getFirestore,
   collection,
@@ -101,7 +102,8 @@ export default defineComponent({
   setup() {
     const closeModal = () => {
       modalController.dismiss();
-      router.push("/inicio");
+      mapboxV("mapa");
+      // router.push("/inicio");
     };
 
     return { closeModal };
@@ -160,3 +162,19 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+  #modal_toolbar {
+  --background: #f78472;
+  --color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  /* border: 1px solid #000; */
+  box-shadow: 1px 0px 10px #000;
+}
+#boton-env {
+  --background: #f78472;
+  background-color: #f78472;
+  --color: #fff;
+  border-radius: 5px;
+}
+</style>

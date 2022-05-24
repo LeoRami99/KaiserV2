@@ -185,8 +185,6 @@ export default defineComponent({
   background-color: #f78472;
   --color: #fff;
   border-radius: 5px;
-
-
 }
 
 </style>
